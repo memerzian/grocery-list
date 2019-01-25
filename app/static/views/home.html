@@ -1,0 +1,98 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="card mb-3 informationbox">
+        <div class="card-body">
+          A simple application to make a grocery list
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-3">
+
+    <div class="col-6">
+      <div class="card">
+
+        <div class="card-header">
+          Meal Plan
+        </div>
+
+        <div class="card-body">
+          <form>
+
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text">Number of meals</label>
+              </div>
+              <select class="form-control" ng-options="x for x in mealNumberOptions" ng-model="mealNumber" ng-change="updateMealPlan()"></select>
+            </div>
+       
+          	<div class="input-group mb-3" ng-repeat="mealPlan in mealPlans">
+              <div class="input-group-prepend">
+                <label class="input-group-text">Meal {{ mealPlan.Number }}</label>
+              </div>
+            	<select class="custom-select" ng-options="z.MealName for z in mealOptions" ng-model="mealPlan.Meal"></select>
+          	</div>            
+
+          </form>
+        </div>
+
+        <div class="card-footer bg-transparent">
+          <button class="btn btn-info" ng-click="getIngredients()">Add ingredients to grocery list</button>
+        </div>
+      </div>
+    </div>
+
+    <div class = "col-6">
+      <div class="card">
+
+        <div class="card-header">
+          Grocery List
+        </div>
+
+        <div class="card-body">
+          <div ng-if="ingredientsExist()"> No ingredients added yet</div>
+          <table class="table" ng-if="!ingredientsExist()">
+            <thead>
+              <tr>
+                <th scope="col"> Aisle </th>
+                <th scope="col"> Ingredient </th>
+                <th scope="col"> Quantity </th>
+                <th scope="col"> Unit </th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="ingredient in ingredients | orderBy: 'TJAisle'">
+                <td> 
+                  <input type="number" class="form-control" step="1" ng-model="ingredient.TJAisle">
+                </td>
+                <td> 
+                  <input type="text" class="form-control" ng-model="ingredient.Ingredient">
+                </td>
+                <td> 
+                  <input type="number" class="form-control" step=".01" ng-model="ingredient.Quantity">
+                </td>
+                <td> 
+                  <input type="text" class="form-control" ng-model="ingredient.Unit">
+                </td>
+                <td>
+                  <i class="fa fa-remove text-danger" ng-click="deleteIngredient(ingredient)"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>          
+        </div>
+
+        <div class="card-footer bg-transparent">
+          <button class="btn btn-success" ng-click="addIngredient()"> Add ingredient</button>
+          <button class="btn btn-danger" ng-click="clearList()" ng-disabled=ingredientsExist()> Clear list </button>
+          <button class="btn btn-warning" ng-click="createTaskList()" ng-disabled=ingredientsExist()> Create google task list</button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
