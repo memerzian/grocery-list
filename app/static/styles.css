@@ -1,0 +1,21 @@
+.container-fluid {
+     padding-left: 75px;
+     padding-right: 75px;
+}
+
+.card-header {
+	background: #faf8f8;
+}
+
+.card-body {
+	max-height: 500px;
+  	overflow-y: auto;
+}
+
+.informationbox {
+	border-color: #dae5da;
+}
+
+.fa-remove {
+	cursor: pointer;
+}

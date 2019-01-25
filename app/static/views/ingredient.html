@@ -1,0 +1,40 @@
+<div class="container">
+	<div class="row mb-5">
+
+		<div class="col-3">
+		  <select class="custom-select" ng-options="z for z in ingredients | orderBy: z" ng-model="selectedIngredient"></select>
+		</div>
+		<div class="col-2">
+			<button class="btn btn-info" ng-click="getMealList(selectedIngredient)">Search</button>
+		</div>
+	  
+	</div>
+
+	<div class="row">
+		<div class="col-6">
+		 <table class="table">
+			<thead class="thead-light">
+			  <tr>
+				<th scope="col"> Meal </th>
+				<th scope="col"> Quantity</th>
+				<th scope="col"> Unit</th>
+			  </tr>
+			</thead>
+			<tbody>
+			  <tr ng-repeat="meal in mealList">
+				<td> 
+				  {{meal.Meal}}
+				</td>
+				<td> 
+				  {{meal.Quantity}}
+				</td>
+				<td> 
+				  {{meal.Unit}}
+				</td>
+			  </tr>
+			</tbody>
+			</table>
+		</div>
+  	</div>  
+</div>
+
