@@ -11,7 +11,9 @@ from httplib2 import Http
 from oauth2client import file, client, tools
 import datetime
 
-app = Flask(__name__)
+app = Flask(__name__,
+			static_folder='client/static',
+			template_folder='client/templates')
 
 from app import routes
 
