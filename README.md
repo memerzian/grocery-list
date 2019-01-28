@@ -9,7 +9,8 @@ My wife and wanted a quick way to create our grocery list instead of always goin
 1) Choose meals that you want to make for the week
 2) Edit list based on ingredients that you already own or add ones not included in the recipes
 3) Export list to a google task list
-![Screenshot](screenshots/GrocerySnapshot.png?raw=true "Title")
+
+[Screenshot](screenshots/GrocerySnapshot.png)
 
 ## Notes
 Used this tutorial to get started: https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world
