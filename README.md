@@ -19,6 +19,7 @@ My wife and wanted a quick way to create our grocery list instead of always goin
 ## Next
 * Make javascript files typescript
 * Add a real database instead of using the excel 
+* Add unit testing!
 * Create admin portal for adding new recipes
 
 ## Notes
