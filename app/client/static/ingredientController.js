@@ -10,25 +10,22 @@
   	$scope.mealList;
 	
 	function getDistinctIngredients() {
-			$http.get('http://localhost:5000/allingredients')
+			$http.get('http://localhost:5000/api/ingredients')
 		  		.then(function(response) {
-		  			//The json comes through as a string if the parse is not included
-		  			$scope.ingredients = JSON.parse(response.data); 
+		  			$scope.ingredients = response.data; 
 		  		});
 	  	};
 
 	$scope.getMealList = function(selectedIngredient) {
-		$http.get('http://localhost:5000/meallist',
+		$http.get('http://localhost:5000/api/meallist',
 		{
 			params: {ingredient: selectedIngredient}
 		})
 	  		.then(function(response) {
-	  			$scope.mealList = JSON.parse(response.data);
+	  			$scope.mealList = response.data;
 	  		});
   	};
 
 	});
-
-   
 
 }());

@@ -12,9 +12,9 @@
   		getMealOptions();
 
   		function getMealOptions() {
-			$http.get('http://localhost:5000/meals')
+			$http.get('http://localhost:5000/api/meals')
 		  		.then(function(response) {
-		  			$scope.mealOptions = JSON.parse(response.data); //The json comes through as a string if the parse is not included
+					  $scope.mealOptions = response.data;
 		  		});
 	  	};
 
@@ -22,12 +22,12 @@
 	  		var mealsArray = $scope.mealPlans.map(function(mp) {return mp.Meal;});
 	  		var mealNameArray = mealsArray.map(function(m) {return m.MealName;});
 	 
-			$http.get('http://localhost:5000/ingredients',
+			$http.get('http://localhost:5000/api/ingredientsformeals',
 			{
 				params: {meals: JSON.stringify(mealNameArray)}
 			})
 		  		.then(function(response) {
-		  			var data = JSON.parse(response.data);
+		  			var data = response.data;
 		  			$scope.ingredients = $scope.ingredients.concat(data);
 		  		});
 	  	};
@@ -42,7 +42,7 @@
 	  	}
 
 	  	$scope.createTaskList = function() {
-		  	$http.get('http://localhost:5000/tasklist',
+		  	$http.get('http://localhost:5000/api/tasklist',
 			{
 				params: {ingredient: JSON.stringify($scope.ingredients), meals: JSON.stringify($scope.mealPlans) }
 			})
@@ -77,8 +77,6 @@
 	  	$scope.mealNumberArray = function() {
 			return Array.apply(null, {length: $scope.mealNumber}).map(Number.call, Number)
 	  	}
-
-	
 	});
 
 }());
