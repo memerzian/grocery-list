@@ -12,6 +12,15 @@ My wife and wanted a quick way to create our grocery list instead of always goin
 
 ![Screenshot](screenshots/GrocerySnapshot.PNG)
 
+4) Use the ingredients tab to see meals that contain a specific ingredient
+
+![Screenshot](screenshots/IngredientsSnapshot.PNG)
+
+## Next
+* Make javascript files typescript
+* Add a real database instead of using the excel 
+* Create admin portal for adding new recipes
+
 ## Notes
 Used this tutorial to get started: https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world
 
