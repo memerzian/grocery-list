@@ -12,7 +12,7 @@ from oauth2client import file, client, tools
 import datetime
 
 # This is the "database" for now
-dataFilePathString = r"C:\Users\matte\grocery-list\app\example.xlsx"
+dataFilePathString = r"C:\Users\matte\git\grocery-list\app\example.xlsx"
 
 @bp.route('/meals', methods=['GET'])
 def get_meals():
