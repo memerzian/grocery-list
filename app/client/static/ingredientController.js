@@ -19,7 +19,7 @@
 	$scope.getMealList = function(selectedIngredient) {
 		$http.get('http://localhost:5000/api/meallist',
 		{
-			params: {ingredient: selectedIngredient}
+			params: {ingredient: selectedIngredient.id}
 		})
 	  		.then(function(response) {
 	  			$scope.mealList = response.data;

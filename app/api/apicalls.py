@@ -1,14 +1,17 @@
 from flask import request
 from flask_restful import Resource, Api
+from flask import jsonify
 import pandas as pd
 from app.api import bp
 from app import app
+from app import db
 import json
 from json import dumps
 import pdb
 from googleapiclient.discovery import build
 from httplib2 import Http
 from oauth2client import file, client, tools
+from app.models import Meal, Ingredient, Recipe, Unit
 import datetime
 
 # This is the "database" for now
@@ -16,33 +19,21 @@ dataFilePathString = r"C:\Users\matte\git\grocery-list\app\example.xlsx"
 
 @bp.route('/meals', methods=['GET'])
 def get_meals():
-
-    # "r" is required at the start of the string so that it knows that it doesnt have an issue with character escapes. r = raw
-    xl = pd.ExcelFile(dataFilePathString) 
-    df1 = xl.parse('Meals')
-
-    # Records is the preferred return format for this: https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.to_json.html
-    return df1.to_json(orient='records')
+    meals = Meal.query.all()
+    return jsonify([meal.to_dict() for meal in meals])
 
 @bp.route('/ingredients', methods=['GET'])
 def get_ingredients():
-    xl = pd.ExcelFile(dataFilePathString) 
-    df1 = xl.parse('Recipes')
-
-    distinctIngredients = df1['Ingredient'].unique().tolist()
-
-    return json.dumps(distinctIngredients)
+    ingredients = Ingredient.query.all()
+    return jsonify([ingredient.to_dict() for ingredient in ingredients])
 
 @bp.route('/meallist', methods=['GET'])
 def get_meallist():
-    ingredient = request.args['ingredient']
+    ingredientID = request.args['ingredient']
     
-    xl = pd.ExcelFile(dataFilePathString) 
-    df1 = xl.parse('Recipes')
+    recipes = db.session.query(Recipe).filter(Recipe.ingredient_id == ingredientID)
 
-    df = df1[df1.Ingredient == ingredient]
-
-    return df.to_json(orient='records')
+    return jsonify([recipe.to_dict() for recipe in recipes])
 
 @bp.route('/ingredientsformeals', methods=['GET'])
 def get_ingredientsformeals():
