@@ -22,7 +22,7 @@
 			params: {ingredient: selectedIngredient.id}
 		})
 	  		.then(function(response) {
-	  			$scope.mealList = response.data;
+				  $scope.mealList = response.data;
 	  		});
   	};
 

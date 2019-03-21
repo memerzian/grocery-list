@@ -12,10 +12,9 @@ from googleapiclient.discovery import build
 from httplib2 import Http
 from oauth2client import file, client, tools
 from app.models import Meal, Ingredient, Recipe, Unit
+from sqlalchemy import func
 import datetime
 
-# This is the "database" for now
-dataFilePathString = r"C:\Users\matte\git\grocery-list\app\example.xlsx"
 
 @bp.route('/meals', methods=['GET'])
 def get_meals():
@@ -41,20 +40,32 @@ def get_ingredientsformeals():
     # Find values passed in as parameters
     mealsString = request.args['meals']
     mealsList = json.loads(mealsString)
-    # pdb.set_trace() - used for debugging
 
-    xl = pd.ExcelFile(dataFilePathString)
-    df1 = xl.parse('Recipes')
+    # Sum the total quantity for each ingredient
+    ingredients = db.session.query(Ingredient.name, Unit.name, func.sum(Recipe.quantity).label('quantity')
+    ).join(Unit
+    ).filter(Recipe.meal.has(Meal.name.in_(mealsList))
+    ).group_by(Ingredient.name, Unit.name
+    ).all()
 
-    # only want ingredients for the meals that were passed in as an argument
-    df = df1[df1.Meal.isin(mealsList)]
-    s = df.groupby(['Ingredient', 'Unit', 'TJAisle'])['Quantity'].sum().reset_index()
+    # pdb.set_trace()
 
-    return s.to_json(orient='records')
+    ingredientsDictionary = []
+
+    for ingredient in ingredients:
+        ingredientsDictionary.append(
+            {
+                'name': ingredient[0],
+                'unit': ingredient[1],
+                'quantity': ingredient[2]
+            }
+        )
+        
+    return jsonify(ingredientsDictionary)
 
 
-@bp.route('/tasklist', methods=['GET'])
-def get_tasklist():
+@bp.route('/tasklist', methods=['GET', 'POST'])
+def post_tasklist():
     ingredientString = request.args['ingredient']
     ingredients = json.loads(ingredientString)
 
@@ -66,7 +77,7 @@ def get_tasklist():
 
     mealListString = ''
     for meal in meals:
-        mealListString = mealListString + '(' + str(meal['Number']) + ') ' + meal['Meal']['MealName'] + ' '
+        mealListString = mealListString + '(' + str(meal['Number']) + ') ' + meal['Meal']['name'] + ' '
 
     SCOPES = 'https://www.googleapis.com/auth/tasks'
     store = file.Storage('token.json')
@@ -90,12 +101,12 @@ def get_tasklist():
 
     for ingredient in ingredients:
         task = {
-            'title': ingredient['Ingredient'] + ' (' + str(ingredient['Quantity']) + ' ' + ingredient['Unit'] + ')'
+            'title': ingredient['name'] + ' (' + str(ingredient['quantity']) + ' ' + ingredient['unit'] + ')'
         }
 
         # Add new task to the list that was previously created
         # only if quantity is greater than 0
-        if ingredient['Quantity'] > 0:
+        if ingredient['quantity'] > 0:
             service.tasks().insert(tasklist=tasklist_id, body=task).execute()
 
     # Add the meals to the top of the list so we know we remember what we planned to make
@@ -105,4 +116,4 @@ def get_tasklist():
 
     service.tasks().insert(tasklist=tasklist_id, body=mealTask).execute()
     
-    return tasklist, 201
+    return 'OK'
