@@ -20,14 +20,14 @@
 
 	  	$scope.getIngredients = function() {
 	  		var mealsArray = $scope.mealPlans.map(function(mp) {return mp.Meal;});
-	  		var mealNameArray = mealsArray.map(function(m) {return m.MealName;});
+			var mealNameArray = mealsArray.map(function(m) {return m.name;});
 	 
 			$http.get('http://localhost:5000/api/ingredientsformeals',
 			{
 				params: {meals: JSON.stringify(mealNameArray)}
 			})
 		  		.then(function(response) {
-		  			var data = response.data;
+					var data = response.data;
 		  			$scope.ingredients = $scope.ingredients.concat(data);
 		  		});
 	  	};
@@ -54,9 +54,9 @@
 	  	$scope.addIngredient = function() {
 	  		var newIngredient = {
 		        TJAisle:  0,
-		        Ingredient: 'New',
-		        Quantity: 1,
-		        Unit: ''
+		        name: 'New',
+		        quantity: 1,
+		        unit: ''
       		};
 
       		$scope.ingredients.push(newIngredient);

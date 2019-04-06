@@ -2,7 +2,7 @@
 	<div class="row mb-5">
 
 		<div class="col-3">
-		  <select class="custom-select" ng-options="z for z in ingredients | orderBy: z" ng-model="selectedIngredient"></select>
+		  <select class="custom-select" ng-options="ingredient.name for ingredient in ingredients | orderBy: z" ng-model="selectedIngredient"></select>
 		</div>
 		<div class="col-2">
 			<button class="btn btn-info" ng-click="getMealList(selectedIngredient)">Search</button>
@@ -23,13 +23,13 @@
 			<tbody>
 			  <tr ng-repeat="meal in mealList">
 				<td> 
-				  {{meal.Meal}}
+				  {{meal.mealName}}
 				</td>
 				<td> 
-				  {{meal.Quantity}}
+				  {{meal.quantity}}
 				</td>
 				<td> 
-				  {{meal.Unit}}
+				  {{meal.unit}}
 				</td>
 			  </tr>
 			</tbody>
