@@ -32,3 +32,11 @@ flask run
 Had to install googleapiclient as "pip install google-api-python-client"
 
 Google task api reference: https://developers.google.com/tasks/v1/reference/
+
+## Hosting on raspberry pi
+need to make sure to update the apis so the point to prod server
+make sure config file isnt tracked by git
+flask db upgrade (to get insert the tables for the db)
+run databaseSeed.sql to seed new values
+flask run --host=0.0.0.0 (the 0.0.0.0 is important b/c that makes the server publicly available)
+
