@@ -3,7 +3,7 @@
 
   angular.module('DinnerPlansApp')
 
-  .controller('homeController', function($scope, $http) {
+  .controller('homeController', ['$scope','$http','config', function($scope, $http, config) {
   		$scope.mealNumber;
   		$scope.mealChoice;
   		$scope.ingredients = [];
@@ -12,7 +12,7 @@
   		getMealOptions();
 
   		function getMealOptions() {
-			$http.get('http://localhost:5000/api/meals')
+			$http.get(config.apiUrl + '/meals')
 		  		.then(function(response) {
 					  $scope.mealOptions = response.data;
 		  		});
@@ -22,7 +22,7 @@
 	  		var mealsArray = $scope.mealPlans.map(function(mp) {return mp.Meal;});
 			var mealNameArray = mealsArray.map(function(m) {return m.name;});
 	 
-			$http.get('http://localhost:5000/api/ingredientsformeals',
+			$http.get(config.apiUrl + '/ingredientsformeals',
 			{
 				params: {meals: JSON.stringify(mealNameArray)}
 			})
@@ -42,7 +42,7 @@
 	  	}
 
 	  	$scope.createTaskList = function() {
-		  	$http.get('http://localhost:5000/api/tasklist',
+		  	$http.get(config.apiUrl + '/tasklist',
 			{
 				params: {ingredient: JSON.stringify($scope.ingredients), meals: JSON.stringify($scope.mealPlans) }
 			})
@@ -77,6 +77,6 @@
 	  	$scope.mealNumberArray = function() {
 			return Array.apply(null, {length: $scope.mealNumber}).map(Number.call, Number)
 	  	}
-	});
+	}]);
 
 }());

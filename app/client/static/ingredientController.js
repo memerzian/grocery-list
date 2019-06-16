@@ -10,14 +10,14 @@
   	$scope.mealList;
 	
 	function getDistinctIngredients() {
-			$http.get('http://localhost:5000/api/ingredients')
+			$http.get(config.apiUrl + '/ingredients')
 		  		.then(function(response) {
 		  			$scope.ingredients = response.data; 
 		  		});
 	  	};
 
 	$scope.getMealList = function(selectedIngredient) {
-		$http.get('http://localhost:5000/api/meallist',
+		$http.get(config.apiUrl + '/meallist',
 		{
 			params: {ingredient: selectedIngredient.id}
 		})
