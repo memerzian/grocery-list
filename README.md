@@ -40,3 +40,6 @@ flask db upgrade (to get insert the tables for the db)
 run databaseSeed.sql to seed new values
 flask run --host=0.0.0.0 (the 0.0.0.0 is important b/c that makes the server publicly available)
 
+## Dev
+Make sure to load with localhost, otherwise will get a CORS issue with apis
+
